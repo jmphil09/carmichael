@@ -1,15 +1,17 @@
+import glob
 import numpy
 import pickle
 import random
 
 from math import gcd
 from multiprocessing import Pool
+from pathlib import Path
 
 import time
 start_time = time.perf_counter()
 
 NUM_CORES = 16
-PRIME_UPPER_BOUND = 1000
+PRIME_UPPER_BOUND = 100
 
 
 found_carm_set = set()
@@ -27,6 +29,40 @@ def primesfrom2to(n):
 
 
 primes_to_check = primesfrom2to(PRIME_UPPER_BOUND)
+
+
+#helper functions
+def get_found_primes():
+    result = (False, None)
+    file_list = glob.glob(str(Path('found_carm_*')))
+    if file_list:
+        max_file_num = max([int(item.replace(str(Path('found_carm_')), '')) for item in file_list])
+        result = (True, max_file_num)
+    return result
+
+
+files_exist, largest_file_num = get_found_primes()
+if files_exist:
+    p1_set = set()
+    for n in range(1, largest_file_num + 1):
+        try:
+            filename = 'found_carm_{}'.format(n)
+            infile = open(filename, 'rb')
+            prime_tuple_list = pickle.load(infile)
+            p1_list = [p[0] for p in prime_tuple_list]
+            p1_max = max(p1_list)
+            p1_list = [p for p in p1_list if p!=p1_max]
+            p1_set = set([p for p in p1_set] + p1_list)
+            #print(p1_set)
+            #print(p1_list)
+            #print(prime_tuple_list)
+            #print(set(prime_tuple_list))
+            infile.close()
+        except Exception as e:
+            #print(e)
+            pass
+    print(sorted(list(p1_set)))
+
 random.shuffle(primes_to_check)
 n = NUM_CORES - 1
 n_list_size = int(len(primes_to_check)/NUM_CORES)
@@ -93,6 +129,7 @@ if __name__ == '__main__':
         pass
     #num_runs = 4
     #for i in range(num_runs):
-    run_all_threads()
-    #end_time = time.perf_counter()
+    #run_all_threads()
+    end_time = time.perf_counter()
     #print("{} runs completed in {} seconds. {} seconds per run.".format(num_runs, end_time, end_time/num_runs))
+    print("Completed in {} seconds.".format(end_time - start_time))
