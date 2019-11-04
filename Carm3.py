@@ -43,9 +43,6 @@ class Carm3:
         random.shuffle(self.primes_to_check)
         n = self.num_cores - 1
         n_list_size = int(len(self.primes_to_check) / self.num_cores)
-        '''split_primes = (
-            [list(self.primes_to_check[i * n_list_size:(i + 1) * n_list_size]) for i in range(0, n)] + [list(self.primes_to_check[(n) * n_list_size::])]
-        )'''
         split_primes = np.array_split(self.primes_to_check, self.num_cores)
 
         p = Pool(processes=self.num_cores)
@@ -94,7 +91,7 @@ class Carm3:
         file_list = glob.glob(str(Path(self.data_folder + '/' + 'found_carm_*')))
         if file_list:
             max_file_num = max([int(item.replace(str(Path(self.data_folder + '/' + 'found_carm_')), '').replace('.pkl', '')) for item in file_list])
-            for n in range(1, max_file_num + 1):
+            for n in range(0, max_file_num + 1):
                 try:
                     filename = Path(self.data_folder + '/' + 'found_carm_{}.pkl'.format(n))
                     infile = open(filename, 'rb')
