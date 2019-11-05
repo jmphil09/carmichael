@@ -43,14 +43,15 @@ class Carm3:
         random.shuffle(self.primes_to_check)
         n = self.num_cores - 1
         n_list_size = int(len(self.primes_to_check) / self.num_cores)
-        split_primes = np.array_split(self.primes_to_check, self.num_cores)
+        split_primes = np.array_split(self.p1_primes_to_check, self.num_cores)
+        print([len(item) for item in split_primes])
 
         p = Pool(processes=self.num_cores)
         p.starmap(self._generate_3carm, [[i, split_primes[i]] for i in range(0, self.num_cores)])
 
     def _generate_3carm(self, core_num, p1_primes):
-        p1_primes_to_check = [p for p in p1_primes if p in self.p1_primes_to_check]
-        for p1 in p1_primes_to_check:
+        print(core_num, len(p1_primes))
+        for p1 in p1_primes:
             p2_primes_to_check = [p for p in self.primes_to_check if p > p1]
             for p2 in p2_primes_to_check:
                 p3_primes_to_check = [p for p in p2_primes_to_check if p > p2]
