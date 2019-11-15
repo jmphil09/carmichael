@@ -23,3 +23,11 @@ def primesfrom2to(n):
             sieve[k*k//3::2*k] = False
             sieve[k*(k-2*(i & 1)+4)//3::2*k] = False
     return numpy.r_[2, 3, ((3*numpy.nonzero(sieve)[0][1:]+1) | 1)]
+
+
+def is_prime(n, prime_limit=1000000):
+    large_primes = primesfrom2to(prime_limit)
+    if n > large_primes[-1]:
+        return is_prime(n, prime_limit*10)
+    else:
+        return n in large_primes
