@@ -6,12 +6,13 @@ start_time = time.perf_counter()
 
 if __name__ == '__main__':
     c3 = CarmCalculator(
-        upper_bound=1000,
-        num_cores=32,
+        upper_bound=10000,
+        num_cores=16,
         data_folder='3carm_example'
     )
     #c3.calc_3_carms_for_p(347, 349, 0)
     c3.calc_3_carms()
+    c3._display_results()
     end_time = time.perf_counter()
     print("Completed in {} seconds.".format(int(end_time - start_time)))
 
