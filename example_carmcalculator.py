@@ -6,7 +6,7 @@ start_time = time.perf_counter()
 
 if __name__ == '__main__':
     c3 = CarmCalculator(
-        upper_bound=1000,
+        upper_bound=100000,
         num_cores=16,
         data_folder='3carm_example'
     )
@@ -15,7 +15,10 @@ if __name__ == '__main__':
     end_time = time.perf_counter()
     print("Completed in {} seconds.".format(int(end_time - start_time)))
 
-# upper_boud=700, no prime scrambling
+# upper_bound=100000
+# Completed in 3389 seconds. - 16 cores
+
+# upper_bound=700, no prime scrambling
 # Completed in 42 seconds.- 1 core
 # Completed in 40 seconds.- 2 cores
 # Completed in 30 seconds.- 4 cores
@@ -26,7 +29,7 @@ if __name__ == '__main__':
 # Completed in 9 seconds.- 24 cores
 # Completed in 7 seconds. - 32 cores
 
-# upper_boud=700, prime scrambling
+# upper_bound=700, prime scrambling
 # Completed in 47 seconds.- 1 core
 # Completed in 26 seconds.- 2 cores
 # Completed in 16 seconds.- 4 cores
@@ -38,7 +41,7 @@ if __name__ == '__main__':
 # Completed in 10 seconds. - 32 cores
 
 
-# upper_boud=1000, no prime scrambling
+# upper_bound=1000, no prime scrambling
 # Completed in 159 seconds.- 1 core
 # Completed in 149 seconds.- 2 cores
 # Completed in 112 seconds.- 4 cores
@@ -49,7 +52,7 @@ if __name__ == '__main__':
 # Completed in 34 seconds.- 24 cores
 # Completed in 31 seconds. - 32 cores
 
-# upper_boud=1000, prime scrambling
+# upper_bound=1000, prime scrambling
 # Completed in 162 seconds.- 1 core
 # Completed in 94 seconds.- 2 cores
 # Completed in 60 seconds.- 4 cores
@@ -65,3 +68,5 @@ if __name__ == '__main__':
 # Pickle the results
 # Create checkpoints
 # Check checkpoint logic - there may be a bug if there are more cores than primes
+# Try prime caching for performance improvements
+# Add status printing: "X primes completed, Y primes to go", every N iterations
