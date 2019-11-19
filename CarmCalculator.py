@@ -1,6 +1,7 @@
 import glob
 import pickle
 import random
+import time
 import numpy as np
 
 from multiprocessing import Pool
@@ -19,7 +20,6 @@ class CarmCalculator:
         self.data_folder = data_folder
         self.primes = primesfrom2to(upper_bound)
         self.p1_primes_to_check = self.primes
-        self.large_primes = primesfrom2to(INITIAL_PRIME_LIMIT)
 
         file_list = glob.glob(str(Path(self.data_folder + '/' + 'checked_carm_*')))
         if file_list:
@@ -41,14 +41,22 @@ class CarmCalculator:
             pass
 
     def _is_prime(self, n):
-        largest_prime = self.large_primes[-1]
-        if n > largest_prime:
-            increase_size = largest_prime * 2
-            #print('_is_prime size has been increased to {}'.format(increase_size))
-            self.large_primes = primesfrom2to(increase_size)
-            return self._is_prime(n)
-        else:
-            return n in self.large_primes
+        if n == 2 or n == 3:
+            return True
+        elif n < 2 or n % 2 == 0:
+            return False
+        elif n < 9:
+            return True
+        elif n % 3 == 0:
+            return False
+        r = int(np.sqrt(n))
+        f = 5
+        while f <= r:
+            if n % f == 0 or n % (f + 2) == 0:
+                return False
+            else:
+                f += 6
+        return True
 
     def calc_3_carms_for_p(self, current_prime, next_prime, core_num):
         try:
@@ -57,7 +65,6 @@ class CarmCalculator:
             k = diff
 
             for B in range(2, m):
-                self.large_primes = primesfrom2to(INITIAL_PRIME_LIMIT)
                 a = int(np.floor((np.power(m, 2) / B)) + 1)
                 b = int(np.floor((1 / B) * (np.power(m, 2) + ((m + B) * (m - 1)) / (m + k - 1))))
 
@@ -70,13 +77,8 @@ class CarmCalculator:
                             y = (m * q - 1) / (p - 1)
                             z = (m * p - 1) / (q - 1)
                             if np.floor(x) == x and np.floor(y) == y and np.floor(z) == z:
-                                p1 = np.longlong(m)
-                                p2 = np.longlong(p)
-                                p3 = np.longlong(q)
-                                carm_num = np.uint64(p1*p2*p3)
-                                #print((p1, p2, p3, carm_num))
                                 existing_results = []
-                                new_result = [(p1, p2, p3, carm_num)]
+                                new_result = [(m, p, q)]  # [(p1, p2, p3)]
                                 filename = Path(self.data_folder + '/' + 'found_carm_{}.pkl'.format(core_num))
                                 try:
                                     save_dir = filename.parent
