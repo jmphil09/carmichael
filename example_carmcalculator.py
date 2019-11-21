@@ -6,7 +6,7 @@ start_time = time.perf_counter()
 
 if __name__ == '__main__':
     c3 = CarmCalculator(
-        upper_bound=100000,
+        upper_bound=10000,
         num_cores=16,
         data_folder='3carm_example'
     )

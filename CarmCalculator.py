@@ -14,12 +14,15 @@ INITIAL_PRIME_LIMIT = 10000
 
 
 class CarmCalculator:
-    def __init__(self, upper_bound=350, num_cores=1, data_folder='data'):
+    def __init__(self, upper_bound=350, num_cores=1, data_folder='data', percentage_marker=5):
         self.upper_bound = upper_bound
         self.num_cores = num_cores
         self.data_folder = data_folder
         self.primes = primesfrom2to(upper_bound)
         self.p1_primes_to_check = self.primes
+        self.percentage_marker = percentage_marker
+
+        self.primes_per_core = {k:0 for k in range(0, num_cores)}
 
         file_list = glob.glob(str(Path(self.data_folder + '/' + 'checked_carm_*')))
         if file_list:
@@ -31,10 +34,12 @@ class CarmCalculator:
                     filename = Path(self.data_folder + '/' + 'checked_carm_{}.pkl'.format(n))
                     infile = open(filename, 'rb')
                     existing_results = pickle.load(infile)
+                    self.primes_per_core[n] = len(existing_results)
                     p1_list = p1_list + existing_results
                     infile.close()
                 except Exception as e:
-                    print(e)
+                    #print(e)
+                    pass
             p1_set = set(p1_list)
             self.p1_primes_to_check = [p for p in self.primes if p not in p1_set]
         else:
@@ -88,7 +93,7 @@ class CarmCalculator:
                                     infile.close()
                                     result = existing_results + new_result
                                 except Exception as e:
-                                    print(e)
+                                    #print(e)
                                     result = new_result
                                 outfile = open(filename, 'wb')
                                 pickle.dump(result, outfile)
@@ -99,7 +104,15 @@ class CarmCalculator:
             self.calc_3_carms_for_p(current_prime, next_prime, core_num)
 
     def calc_3_carms_for_list(self, prime_list, core_num):
-        for i in range(0, len(prime_list)):
+        total_primes = len(prime_list)
+        print_marker = int(total_primes / (100 / self.percentage_marker))
+        prime_counter = self.primes_per_core[core_num]
+        for i in range(0, total_primes):
+            if prime_counter % print_marker == 0:
+                percent = int((prime_counter / total_primes)*100)
+                complete_bar = '|' + '='*percent + '-'*(100-percent) + '|'
+                print('Core {}: {}% {}'.format(core_num, percent, complete_bar))
+            prime_counter += 1
             current_prime = prime_list[i]
             next_prime = [p for p in self.sorted_primes if p > current_prime][0]
             self.calc_3_carms_for_p(current_prime, next_prime, core_num)
@@ -111,7 +124,7 @@ class CarmCalculator:
                 infile.close()
                 result = existing_results + [current_prime]
             except Exception as e:
-                print(e)
+                #print(e)
                 result = [current_prime]
             save_dir = filename.parent
             save_dir.mkdir(parents=True, exist_ok=True)
