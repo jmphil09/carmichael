@@ -23,6 +23,7 @@ class CarmCalculator:
         self.percentage_marker = percentage_marker
 
         self.primes_per_core = {k:0 for k in range(0, num_cores)}
+        self.prime_dict = {}
 
         file_list = glob.glob(str(Path(self.data_folder + '/' + 'checked_carm_*')))
         if file_list:
@@ -63,6 +64,12 @@ class CarmCalculator:
                 f += 6
         return True
 
+    def is_prime(self, n):
+        result = self.prime_dict.get(n, None)
+        if not result:
+            self.prime_dict[n] = self._is_prime(n)
+        return self.prime_dict[n]
+
     def calc_3_carms_for_p(self, current_prime, next_prime, core_num):
         try:
             m = current_prime
@@ -77,13 +84,13 @@ class CarmCalculator:
                     p = 1 + ((m + B) * (m - 1)) / (A * B - np.power(m, 2))
                     q = (A * (p-1) + 1) / m
                     if np.floor(p) == p and np.floor(q) == q:  # np.floor(q) == q may not be needed
-                        if self._is_prime(p) and self._is_prime(q):
+                        if self.is_prime(p) and self.is_prime(q):
                             x = (p * q - 1) / (m - 1)
                             y = (m * q - 1) / (p - 1)
                             z = (m * p - 1) / (q - 1)
                             if np.floor(x) == x and np.floor(y) == y and np.floor(z) == z:
                                 existing_results = []
-                                new_result = [(m, p, q)]  # [(p1, p2, p3)]
+                                new_result = [(m, int(p), int(q))]  # [(p1, p2, p3)]
                                 filename = Path(self.data_folder + '/' + 'found_carm_{}.pkl'.format(core_num))
                                 try:
                                     save_dir = filename.parent
@@ -134,7 +141,7 @@ class CarmCalculator:
 
     def calc_3_carms(self):
         new_limit = self.upper_bound
-        while not self._is_prime(new_limit):
+        while not self.is_prime(new_limit):
             new_limit += 1
         random.shuffle(self.p1_primes_to_check)  # This may cause performance increases with higher core counts
         split_primes = np.array_split(self.p1_primes_to_check, self.num_cores)

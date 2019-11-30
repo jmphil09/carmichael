@@ -6,14 +6,21 @@ start_time = time.perf_counter()
 
 if __name__ == '__main__':
     c3 = CarmCalculator(
-        upper_bound=10000,
-        num_cores=16,
+        upper_bound=1000000,
+        num_cores=32,
         data_folder='3carm_example'
     )
     c3.calc_3_carms()
     c3._display_results()
     end_time = time.perf_counter()
     print("Completed in {} seconds.".format(int(end_time - start_time)))
+
+
+# 20, 17, 17 _is_prime - 51, 50, 51
+# 17, 17, 19 is_prime -- 54, 51, 52
+
+# upper_bound=10000, num_cores=8
+#Completed in 80 seconds.
 
 # upper_bound=100000
 # Completed in 3389 seconds. - 16 cores
