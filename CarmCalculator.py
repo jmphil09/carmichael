@@ -116,7 +116,7 @@ class CarmCalculator:
         prime_counter = self.primes_per_core[core_num]
         for i in range(0, total_primes):
             if prime_counter % print_marker == 0:
-                percent = int((prime_counter / total_primes)*100)
+                percent = int((prime_counter / (total_primes + prime_counter))*100)
                 complete_bar = '|' + '='*percent + '-'*(100-percent) + '|'
                 print('Core {}: {}% {}'.format(core_num, percent, complete_bar))
             prime_counter += 1
