@@ -39,7 +39,6 @@ class CarmCalculator:
                 except Exception as e:
                     print('Exception occured in initializing class')
                     print(e)
-                    pass
             p1_set = set(p1_list)
             self.p1_primes_to_check = [p for p in self.primes if p not in p1_set]
             assert len(self.p1_primes_to_check) == len(self.primes) - sum(self.primes_per_core.values())
@@ -87,8 +86,6 @@ class CarmCalculator:
                 found = True
 
         return prime
-
-
 
 
     def calc_3_carms_for_p(self, current_prime, next_prime, core_num):
