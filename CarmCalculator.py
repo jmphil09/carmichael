@@ -86,7 +86,7 @@ class CarmCalculator:
                             y = (m * q - 1) / (p - 1)
                             z = (m * p - 1) / (q - 1)
                             if np.floor(x) == x and np.floor(y) == y and np.floor(z) == z:
-                                new_result = [(m, int(p), int(q))]  # [(p1, p2, p3)]
+                                new_result = [(int(m), int(p), int(q))]  # [(p1, p2, p3)]
                                 result = result + new_result
             return result
 
