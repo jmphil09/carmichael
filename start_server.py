@@ -6,7 +6,7 @@ app = Flask(__name__)
 def get_json_response():
     return {
         "algorithm_to_use": "carm3",
-        "numbers_to_compute": (3, 10000, 1)
+        "numbers_to_compute": (300, 800, 1)
     }
 
 @app.route('/')

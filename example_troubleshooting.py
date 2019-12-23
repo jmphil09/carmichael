@@ -1,4 +1,4 @@
-from CarmCalculator import CarmCalculator
+from CarmCalculatorLegacy import CarmCalculator
 
 import time
 start_time = time.perf_counter()
