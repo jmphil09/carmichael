@@ -14,14 +14,13 @@ INITIAL_PRIME_LIMIT = 10000
 
 
 class CarmCalculator:
-    def __init__(self, lower_bound = 3, upper_bound=350, num_cores=1, data_folder='data', percentage_marker=5):
+    def __init__(self, lower_bound = 3, upper_bound=350, num_cores=1, data_folder='data'):
         self.upper_bound = upper_bound
         self.num_cores = num_cores
         self.data_folder = data_folder
         self.primes = [p for p in primesfrom2to(self.upper_bound) if p >= lower_bound]
         self.p1_primes_to_check = self.primes
-        self.percentage_marker = percentage_marker
-        self.primes_per_core = {k:0 for k in range(0, num_cores)}
+        self.primes_per_core = {k:0 for k in range(0, self.num_cores)}
         self.prime_dict = {}
 
     def _is_prime(self, n):
@@ -98,15 +97,11 @@ class CarmCalculator:
 
     def calc_3_carms_for_list(self, prime_list, core_num):
         result = []
-        total_primes = len(self.primes) + 1
-        print_marker = int(total_primes / (100 / self.percentage_marker))
-        prime_counter = self.primes_per_core[core_num]
         for i in range(0, len(prime_list)):
-            if prime_counter % print_marker == 0:
-                percent = int((prime_counter / (total_primes))*100)
+            if i % 5 == 0:
+                percent = int((i / (len(prime_list)))*100)
                 complete_bar = '|' + '='*percent + '-'*(100-percent) + '|'
                 print('Core {}: {}% {}'.format(core_num, percent, complete_bar))
-            prime_counter += 1
             current_prime = prime_list[i]
             next_prime = self.next_prime(current_prime)
             result = result + self.calc_3_carms_for_p(current_prime, next_prime, core_num)
@@ -119,6 +114,7 @@ class CarmCalculator:
                 new_limit += 1
             random.shuffle(self.p1_primes_to_check)  # This may cause performance increases with higher core counts
             split_primes = np.array_split(self.p1_primes_to_check, self.num_cores)
+            self.primes_per_core = {k:len(split_primes[k]) for k in range(0, self.num_cores)}
             p = Pool(processes=self.num_cores)
             result = p.starmap(self.calc_3_carms_for_list, [[split_primes[i], i] for i in range(0, self.num_cores)])
             return sorted(sum(result, []), key=lambda x: x[0])
