@@ -14,11 +14,14 @@ INITIAL_PRIME_LIMIT = 10000
 
 
 class CarmCalculator:
-    def __init__(self, lower_bound = 3, upper_bound=350, num_cores=1, data_folder='data'):
+    def __init__(self, lower_bound = 3, upper_bound=350, batch=None, num_cores=1, data_folder='data'):
         self.upper_bound = upper_bound
         self.num_cores = num_cores
         self.data_folder = data_folder
-        self.primes = [p for p in primesfrom2to(self.upper_bound) if p >= lower_bound]
+        if batch:
+            self.primes = [p for p in primesfrom2to(self.upper_bound) if p in batch]
+        else:
+            self.primes = [p for p in primesfrom2to(self.upper_bound) if p >= lower_bound]
         self.p1_primes_to_check = self.primes
         self.primes_per_core = {k:0 for k in range(0, self.num_cores)}
         self.prime_dict = {}
