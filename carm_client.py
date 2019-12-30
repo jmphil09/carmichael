@@ -8,8 +8,8 @@ from CarmCalculator import CarmCalculator
 # TODO: Put these values in a config file
 WORKLOAD_URL = 'http://192.168.50.160:9000/get_workload'
 RESULT_URL = 'http://192.168.50.160:9000/send_results'
-NUM_CORES = 16
-BATCH_SIZE = 100
+NUM_CORES = 1
+BATCH_SIZE = 1
 
 
 
@@ -41,6 +41,8 @@ if __name__ == '__main__':
         algorithm_to_use = workload_response['algorithm_to_use']
         numbers_to_compute = workload_response['numbers_to_compute']
         finished = workload_response['finished']
+        if finished:
+            break
         range_start = min(numbers_to_compute)
         range_stop = max(numbers_to_compute)
 

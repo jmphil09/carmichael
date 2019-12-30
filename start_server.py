@@ -1,11 +1,23 @@
 from flask import Flask, request
 
+from db_commands import insert_items, delete_items, retrieve_items
+
+
+#GLOBAL_NUMS_TO_COMPUTE = list(range(3, 1000)) #TODO: replace with DB
+#GLOBAL_RESULTS = [] #TODO: replace with DB
+
+#TODO: Put these values in a config file
+USER = 'postgres'
+PASSWORD = 'postgres'
+HOST = 'localhost'
+PORT = '5432'
+
+#TODO: Add docstrings
+
 app = Flask(__name__)
 
-GLOBAL_NUMS_TO_COMPUTE = list(range(3, 1000)) #TODO: replace with DB
-GLOBAL_RESULTS = [] #TODO: replace with DB
 
-def get_json_response(batch_size):
+'''def get_json_response(batch_size):
     global GLOBAL_NUMS_TO_COMPUTE
     #TODO: Get 'batch_size' items from the worker queue DB
     # Add these values in memory to current_workload_list
@@ -22,7 +34,25 @@ def get_json_response(batch_size):
         'finished': finished
     }
 
+    return json_response'''
+
+
+def get_json_response(batch_size=100):
+    records = retrieve_items(batch_size, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+    insert_items(records, table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+    delete_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+
+    algorithm_to_use = 'carm3'
+    finished = (len(records) == 0)
+
+    json_response = {
+        'algorithm_to_use': algorithm_to_use,
+        'numbers_to_compute': [record[1] for record in records],
+        'finished': finished
+    }
+
     return json_response
+
 
 @app.route('/get_workload', methods=['GET'])
 def get_workload():
@@ -35,16 +65,16 @@ def get_workload():
 
 @app.route('/send_results', methods=['POST'])
 def send_results():
-    global GLOBAL_RESULTS
+    #global GLOBAL_RESULTS
     # TODO: store the results in the results DB
 
     # TODO: remove the computed numbers from the worker queue DB
     # remove the computed numbers from current_workload_list
 
     print('====Got Results====')
-    #print(request.json['result'])
-    GLOBAL_RESULTS = GLOBAL_RESULTS + request.json['result']
-    print(GLOBAL_RESULTS)
+    print(request.json['result'])
+    #GLOBAL_RESULTS = GLOBAL_RESULTS + request.json['result']
+    #print(GLOBAL_RESULTS)
     print('==== ====')
     return 'False'
 
