@@ -3,7 +3,6 @@ import requests
 from shutil import rmtree
 
 from CarmCalculator import CarmCalculator
-from db_commands import get_results
 
 
 # TODO: Put these values in a config file
@@ -66,4 +65,3 @@ if __name__ == '__main__':
             print('Decreasing batch size to {}'.format(BATCH_SIZE))
         else:
             print('Keeping batch size at {}'.format(BATCH_SIZE))
-    get_results()
