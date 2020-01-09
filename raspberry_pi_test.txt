@@ -1,0 +1,10 @@
+Raspberry pi test
+
+On server:
+1) Run prep.py
+2) Run start_server.py
+
+On Client (raspberry pi):
+1) Edit num_cores to 4 if necessary (in carm_client.py)
+2) Activate venv (will need to create venv and install via requirements.txt)
+2) Run carm_client.py

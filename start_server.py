@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-from db_commands import insert_items, delete_items, retrieve_items
+from db_commands import insert_items, delete_items, retrieve_items, insert_results
 
 
 #GLOBAL_NUMS_TO_COMPUTE = list(range(3, 1000)) #TODO: replace with DB
@@ -11,6 +11,8 @@ USER = 'postgres'
 PASSWORD = 'postgres'
 HOST = 'localhost'
 PORT = '5432'
+DATABASE = 'numbers_to_compute'
+DATABASE_RESULTS = 'results'
 
 #TODO: Add docstrings
 
@@ -38,16 +40,16 @@ app = Flask(__name__)
 
 
 def get_json_response(batch_size=100):
-    records = retrieve_items(batch_size, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
-    insert_items(records, table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
-    delete_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+    records = retrieve_items(batch_size, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+    insert_items(records, table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+    delete_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
 
     algorithm_to_use = 'carm3'
     finished = (len(records) == 0)
 
     json_response = {
         'algorithm_to_use': algorithm_to_use,
-        'numbers_to_compute': [record[1] for record in records],
+        'numbers_to_compute': [record[0] for record in records],
         'finished': finished
     }
 
@@ -76,6 +78,9 @@ def send_results():
     #GLOBAL_RESULTS = GLOBAL_RESULTS + request.json['result']
     #print(GLOBAL_RESULTS)
     print('==== ====')
+
+    # TODO: Insert results in DB
+    insert_results(request.json['result'], table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     return 'False'
 
 if __name__ == '__main__':

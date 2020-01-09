@@ -3,13 +3,14 @@ import requests
 from shutil import rmtree
 
 from CarmCalculator import CarmCalculator
+from db_commands import get_results
 
 
 # TODO: Put these values in a config file
 WORKLOAD_URL = 'http://192.168.50.160:9000/get_workload'
 RESULT_URL = 'http://192.168.50.160:9000/send_results'
-NUM_CORES = 1
-BATCH_SIZE = 1
+NUM_CORES = 4
+BATCH_SIZE = 100
 
 
 
@@ -65,3 +66,4 @@ if __name__ == '__main__':
             print('Decreasing batch size to {}'.format(BATCH_SIZE))
         else:
             print('Keeping batch size at {}'.format(BATCH_SIZE))
+    get_results()
