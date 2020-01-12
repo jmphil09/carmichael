@@ -1,0 +1,36 @@
+Raspberry pi 4 Setup Guide
+
+-Install centos 7 minimal (Add link here)
+
+=Set up wifi and a static IP address
+-Power the pi on with an ethernet cable
+-Look in router portal for the IP address
+-ssh using: 'ssh root@<ipaddress>'
+-launch network manager and add wireless network: 'nmtui'
+-Set up IP address in router portal for wireless adapter
+-Shutdown the pi, remove ethernet cable, turn pi on, ssh to new ipaddress
+
+=Create a user
+-Add the user: 'adduser client'
+-Add a password to the user: 'passwd client'
+-Add sudo privledges: 'usermod -a -G wheel client'
+-Reconnect to ssh as the user (or 'su client'): 'ssh client@<ipaddress>'
+
+=Set up device and install pre-requisites
+-Expand filesystem: 'sudo /usr/bin/rootfs-expand'
+-Install git: 'sudo yum install git'
+-Install python3: 'sudo yum install python3'
+-Install python dev header files and static libraries: 'sudo yum install python3-devel'
+-Install postgresql: 'sudo yum install postgresql-devel'
+-Install gcc: 'sudo yum install gcc'
+
+=Set up the repo
+-Create a src directory in the user folder: 'mkdir ~/src'
+-Enter src folder: 'cd ~/src'
+-In the src folder clone the repo: 'git clone https://github.com/jmphil09/carmichael.git'
+-Enter repo directory: 'cd carmichael'
+-Create virtual environment: 'python3 -m venv carm_env'
+-Activate virtual environment: 'source carm_env/bin/activate'
+-Upgrade pip: 'python3 -m pip install --upgrade pip'
+-Install Raspberry pi 4 requirements: 'python3 -m pip install -r pi4_requirements.txt'
+-Run the pi compute client with: 'python3 p4_client.py'
