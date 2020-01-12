@@ -8,7 +8,7 @@ from CarmCalculator import CarmCalculator
 # TODO: Put these values in a config file
 WORKLOAD_URL = 'http://192.168.50.160:9000/get_workload'
 RESULT_URL = 'http://192.168.50.160:9000/send_results'
-NUM_CORES = 16
+NUM_CORES = 4
 BATCH_SIZE = 100
 
 
