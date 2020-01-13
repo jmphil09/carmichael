@@ -1,14 +1,16 @@
 Raspberry pi 4 Setup Guide
 
--Install centos 7 minimal (Add link here)
+-Install centos 7 minimal: CentOS-Userland-7-armv7hl-RaspberryPI-Minimal-4-1908-sda.raw
+http://isoredirect.centos.org/altarch/7/isos/armhfp/
+-Use balena etcher or similar to burn image to sd card
 
-=Set up wifi and a static IP address
+=Set up wifi and a static IP address (Alternatively, set up static IP address with ethernet)
 -Power the pi on with an ethernet cable
 -Look in router portal for the IP address
 -ssh using: 'ssh root@<ipaddress>'
 -launch network manager and add wireless network: 'nmtui'
 -Set up IP address in router portal for wireless adapter
--Shutdown the pi, remove ethernet cable, turn pi on, ssh to new ipaddress
+-Shutdown the pi, remove ethernet cable, turn pi on, ssh to new ipaddress: 'sudo shutdown -h now'
 
 =Create a user
 -Add the user: 'adduser client'
@@ -17,16 +19,14 @@ Raspberry pi 4 Setup Guide
 -Reconnect to ssh as the user (or 'su client'): 'ssh client@<ipaddress>'
 
 =Set up device and install pre-requisites
--Expand filesystem: 'sudo /usr/bin/rootfs-expand'
+-Expand filesystem: 'sudo rootfs-expand'
 -Install git: 'sudo yum install git'
--Install python3: 'sudo yum install python3'
--Install python dev header files and static libraries: 'sudo yum install python3-devel'
+-Install python3 and dev header files and static libraries: 'sudo yum install python3-devel'
 -Install postgresql: 'sudo yum install postgresql-devel'
 -Install gcc: 'sudo yum install gcc'
 
 =Set up the repo
--Create a src directory in the user folder: 'mkdir ~/src'
--Enter src folder: 'cd ~/src'
+-Create and enter a src directory in the user folder: 'mkdir ~/src && cd ~/src'
 -In the src folder clone the repo: 'git clone https://github.com/jmphil09/carmichael.git'
 -Enter repo directory: 'cd carmichael'
 -Create virtual environment: 'python3 -m venv carm_env'
@@ -34,3 +34,7 @@ Raspberry pi 4 Setup Guide
 -Upgrade pip: 'python3 -m pip install --upgrade pip'
 -Install Raspberry pi 4 requirements: 'python3 -m pip install -r pi4_requirements.txt'
 -Run the pi compute client with: 'python3 p4_client.py'
+
+=TODO: Add startup script to start the client on machine start
+
+=TODO: Add a shell script to execute these commands
