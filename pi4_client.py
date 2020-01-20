@@ -54,8 +54,7 @@ if __name__ == '__main__':
         algorithm_to_use = workload_response['algorithm_to_use']
         numbers_to_compute = workload_response['numbers_to_compute']
         finished = workload_response['finished']
-        if finished:
-            break
+
         range_start = min(numbers_to_compute)
         range_stop = max(numbers_to_compute)
 
