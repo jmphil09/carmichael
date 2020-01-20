@@ -16,6 +16,7 @@ BATCH_SIZE = pi4_config.BATCH_SIZE
 WAIT_TIME = pi4_config.WAIT_TIME
 GIT_COMMAND = pi4_config.GIT_COMMAND
 GIT_MOD_COUNTER = pi4_config.GIT_MOD_COUNTER
+BATCH_INCREASE_TIME = pi4_config.BATCH_INCREASE_TIME
 
 
 def main(algorithm_to_use, range_start, range_stop, batch, num_cores):
@@ -69,7 +70,7 @@ if __name__ == '__main__':
         end_time = time.perf_counter()
         run_time = int(end_time - start_time)
         print("Completed in {} seconds.".format(run_time))
-        if run_time < 60: # If run_time < 1 min: increase the batch_size
+        if run_time < BATCH_INCREASE_TIME: # If run_time < 1 min: increase the batch_size
             BATCH_SIZE = 2 * BATCH_SIZE
             print('Increasing batch size to {}'.format(BATCH_SIZE))
         elif run_time > 600: # If run_time > 10 mins: decrease batch_size
