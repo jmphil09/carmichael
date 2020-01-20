@@ -35,13 +35,13 @@ def main(algorithm_to_use, range_start, range_stop, batch, num_cores):
 
 if __name__ == '__main__':
     finished = False
-    git_counter = 0
+    #git_counter = 0
     while True:
         try:
-            git_counter += 1
-            if git_counter % GIT_MOD_COUNTER == 0:
-                os.system(GIT_COMMAND)
-                git_counter = 0
+            #git_counter += 1
+            #if git_counter % GIT_MOD_COUNTER == 0:
+            #    os.system(GIT_COMMAND)
+            #    git_counter = 0
 
             PARAMS = {
                 'num_cores': NUM_CORES,
