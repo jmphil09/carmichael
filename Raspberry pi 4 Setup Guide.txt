@@ -4,10 +4,26 @@ Raspberry pi 4 Setup Guide
 http://isoredirect.centos.org/altarch/7/isos/armhfp/
 -Use balena etcher or similar to burn image to sd card
 
-=Set up wifi and a static IP address (Alternatively, set up static IP address with ethernet)
+=ETHERNET ONLY(Recommended): Disable wifi and bluetooth
 -Power the pi on with an ethernet cable
 -Look in router portal for the IP address
 -ssh using: 'ssh root@<ipaddress>'
+-Enter the following as 1 command (not including begin or end)
+===BEGIN===
+sh -c 'echo -e \
+"#wifi
+blacklist brcmfmac
+blacklist brcmutil
+
+#bt
+blacklist btbcm
+blacklist hci_uart" \
+> /etc/modprobe.d/raspi-blklst.conf'
+===END===
+-Enter this command: 'systemctl disable wpa_supplicant.service'
+-On next reboot, wifi and bluetooth will be disabled
+
+=WIFI ONLY
 -launch network manager and add wireless network: 'nmtui'
 -Set up IP address in router portal for wireless adapter
 -Shutdown the pi, remove ethernet cable, turn pi on, ssh to new ipaddress: 'sudo shutdown -h now'
@@ -33,8 +49,12 @@ http://isoredirect.centos.org/altarch/7/isos/armhfp/
 -Activate virtual environment: 'source carm_env/bin/activate'
 -Upgrade pip: 'python3 -m pip install --upgrade pip'
 -Install Raspberry pi 4 requirements: 'python3 -m pip install -r pi4_requirements.txt'
--Run the pi compute client with: 'python3 p4_client.py'
+-Run the pi compute client with: 'python3 pi4_client.py'
 
-=TODO: Add startup script to start the client on machine start
-
-=TODO: Add a shell script to execute these commands
+=Setup startup script to start the client on machine start
+- 'chmod +x pi4_start.sh'
+- 'sudo cp pi4_start_service.service /etc/systemd/system/'
+- 'sudo chmod +x /etc/systemd/system/pi4_start_service.service's
+- 'sudo systemctl daemon-reload'
+- 'sudo systemctl enable pi4_start_service.service'
+- Reboot the machine and you're done!
