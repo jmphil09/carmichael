@@ -1,16 +1,21 @@
 import json
+import os
 import requests
+import time
 from shutil import rmtree
 
+import pi4_config
 from CarmCalculator import CarmCalculator
 
 
-# TODO: Put these values in a config file
-WORKLOAD_URL = 'http://192.168.50.160:9000/get_workload'
-RESULT_URL = 'http://192.168.50.160:9000/send_results'
-NUM_CORES = 4
-BATCH_SIZE = 100
-
+# Constants
+WORKLOAD_URL = pi4_config.WORKLOAD_URL
+RESULT_URL = pi4_config.RESULT_URL
+NUM_CORES = pi4_config.NUM_CORES
+BATCH_SIZE = pi4_config.BATCH_SIZE
+WAIT_TIME = pi4_config.WAIT_TIME
+GIT_COMMAND = pi4_config.GIT_COMMAND
+GIT_MOD_COUNTER = pi4_config.GIT_MOD_COUNTER
 
 
 def main(algorithm_to_use, range_start, range_stop, batch, num_cores):
@@ -29,12 +34,19 @@ def main(algorithm_to_use, range_start, range_stop, batch, num_cores):
 
 if __name__ == '__main__':
     finished = False
-    while not finished:
+    git_counter = 0
+    while True:
+        git_counter += 1
+        if git_counter % GIT_MOD_COUNTER == 0:
+            os.system(GIT_COMMAND)
+            git_counter = 0
+        if finished:
+            time.sleep(WAIT_TIME)
+
         PARAMS = {
             'num_cores': NUM_CORES,
             'batch_size': BATCH_SIZE
         }
-        import time
         start_time = time.perf_counter()
         workload_response = requests.get(url=WORKLOAD_URL, params=PARAMS).json()
         print(workload_response)
