@@ -57,4 +57,5 @@ blacklist hci_uart" \
 - 'sudo chmod +x /etc/systemd/system/pi4_start_service.service's
 - 'sudo systemctl daemon-reload'
 - 'sudo systemctl enable pi4_start_service.service'
+- 'git config --global http.sslVerify false'
 - Reboot the machine and you're done!
