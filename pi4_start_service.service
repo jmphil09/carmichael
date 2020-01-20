@@ -1,0 +1,14 @@
+[Unit]
+Description=start pi4 node
+After=network.target
+
+[Service]
+User=client
+Type=simple
+ExecStartPre=/bin/sleep 10
+ExecStart=/home/client/src/carmichael/pi4_start.sh
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target
+
