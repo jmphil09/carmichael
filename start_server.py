@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, request
 
 from db_commands import insert_items, delete_items, retrieve_items, insert_results
@@ -67,7 +68,6 @@ def get_workload():
 
 @app.route('/send_results', methods=['POST'])
 def send_results():
-    #global GLOBAL_RESULTS
     # TODO: store the results in the results DB
 
     # TODO: remove the computed numbers from the worker queue DB
@@ -75,12 +75,13 @@ def send_results():
 
     print('====Got Results====')
     print(request.json['result'])
-    #GLOBAL_RESULTS = GLOBAL_RESULTS + request.json['result']
-    #print(GLOBAL_RESULTS)
     print('==== ====')
 
-    # TODO: Insert results in DB
-    insert_results(request.json['result'], table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+    # Insert results in DB
+    result_date = str(datetime.now())
+    result_host = request.headers['Host']
+    db_results = [(r[0], r[1], r[2], result_host, result_date) for r in request.json['result']]
+    insert_results(db_results, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     return 'False'
 
 if __name__ == '__main__':

@@ -54,8 +54,14 @@ blacklist hci_uart" \
 =Setup startup script to start the client on machine start
 - 'chmod +x pi4_start.sh'
 - 'sudo cp pi4_start_service.service /etc/systemd/system/'
-- 'sudo chmod +x /etc/systemd/system/pi4_start_service.service's
+- 'sudo chmod +x /etc/systemd/system/pi4_start_service.service'
 - 'sudo systemctl daemon-reload'
 - 'sudo systemctl enable pi4_start_service.service'
 - 'git config --global http.sslVerify false'
 - Reboot the machine and you're done!
+
+
+
+
+
+

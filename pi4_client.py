@@ -33,6 +33,20 @@ def main(algorithm_to_use, range_start, range_stop, batch, num_cores):
         print('Unknown Algorithm')
 
 
+def increase_batch(current_batch):
+    result = 2 * current_batch
+    while result % NUM_CORES != 0:
+        result += 1
+    return result
+
+
+def decrease_batch(current_batch):
+    result = int(current_batch / 2)
+    while result % NUM_CORES != 0:
+        result += 1
+    return result
+
+
 if __name__ == '__main__':
     finished = False
     #git_counter = 0
@@ -69,10 +83,12 @@ if __name__ == '__main__':
             run_time = int(end_time - start_time)
             print("Completed in {} seconds.".format(run_time))
             if run_time < BATCH_INCREASE_TIME: # If run_time < 1 min: increase the batch_size
-                BATCH_SIZE = 2 * BATCH_SIZE
+                #BATCH_SIZE = 2 * BATCH_SIZE
+                BATCH_SIZE = increase_batch(BATCH_SIZE)
                 print('Increasing batch size to {}'.format(BATCH_SIZE))
             elif run_time > 600: # If run_time > 10 mins: decrease batch_size
-                BATCH_SIZE = int(BATCH_SIZE / 2)
+                #BATCH_SIZE = int(BATCH_SIZE / 2)
+                BATCH_SIZE = decrease_batch(BATCH_SIZE)
                 print('Decreasing batch size to {}'.format(BATCH_SIZE))
             else:
                 print('Keeping batch size at {}'.format(BATCH_SIZE))

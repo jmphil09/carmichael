@@ -4,6 +4,17 @@ from psycopg2 import Error
 from util import primesfrom2to
 
 
+#Allow psycopg2 to use numpy 64 bit numbers
+import numpy
+from psycopg2.extensions import register_adapter, AsIs
+def addapt_numpy_float64(numpy_float64):
+    return AsIs(numpy_float64)
+def addapt_numpy_int64(numpy_int64):
+    return AsIs(numpy_int64)
+register_adapter(numpy.float64, addapt_numpy_float64)
+register_adapter(numpy.int64, addapt_numpy_int64)
+
+
 #TODO: Put these values in a config file
 USER = 'postgres'
 PASSWORD = 'postgres'
@@ -50,7 +61,9 @@ def create_table_results(table, user, password, host, port, database):
                 (
                 p1 BIGINT NOT NULL,
                 p2 BIGINT NOT NULL,
-                p3 BIGINT NOT NULL
+                p3 BIGINT NOT NULL,
+                ipaddr TEXT NOT NULL,
+                ts TEXT NOT NULL
                 ); '''.format(table)
 
         cursor.execute(create_table_query)
@@ -99,7 +112,7 @@ def insert_results(records, table, user, password, host, port, database):
         connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
         cursor = connection.cursor()
 
-        insert_query = '''INSERT INTO {} (p1, p2, p3) VALUES (%s,%s,%s);'''.format(table)
+        insert_query = '''INSERT INTO {} (p1, p2, p3, ipaddr, ts) VALUES (%s,%s,%s,%s,%s);'''.format(table)
 
         cursor.executemany(insert_query, records)
         connection.commit()
@@ -176,7 +189,7 @@ def create_all_tables():
     create_table_results(table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
 
 def populate_queue():
-    records = [(n, 'carm3') for n in primesfrom2to(10000)[1:]]
+    records = [(n, 'carm3') for n in primesfrom2to(1000000)[1:]]
     #records = [(n, m) for n in primesfrom2to(1000)[1:] for m in ['carm3', 'carm4']]
     insert_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
 
