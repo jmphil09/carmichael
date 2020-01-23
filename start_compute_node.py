@@ -4,19 +4,18 @@ import requests
 import time
 from shutil import rmtree
 
-import pi4_config
+import compute_node_config
 from CarmCalculator import CarmCalculator
 
 
 # Constants
-WORKLOAD_URL = pi4_config.WORKLOAD_URL
-RESULT_URL = pi4_config.RESULT_URL
-NUM_CORES = pi4_config.NUM_CORES
-BATCH_SIZE = pi4_config.BATCH_SIZE
-WAIT_TIME = pi4_config.WAIT_TIME
-GIT_COMMAND = pi4_config.GIT_COMMAND
-GIT_MOD_COUNTER = pi4_config.GIT_MOD_COUNTER
-BATCH_INCREASE_TIME = pi4_config.BATCH_INCREASE_TIME
+WORKLOAD_URL = compute_node_config.WORKLOAD_URL
+RESULT_URL = compute_node_config.RESULT_URL
+NUM_CORES = compute_node_config.NUM_CORES
+BATCH_SIZE = compute_node_config.BATCH_SIZE
+WAIT_TIME = compute_node_config.WAIT_TIME
+BATCH_INCREASE_TIME = compute_node_config.BATCH_INCREASE_TIME
+BATCH_DECREASE_TIME = compute_node_config.BATCH_DECREASE_TIME
 
 
 def main(algorithm_to_use, range_start, range_stop, batch, num_cores):
@@ -49,14 +48,8 @@ def decrease_batch(current_batch):
 
 if __name__ == '__main__':
     finished = False
-    #git_counter = 0
     while True:
         try:
-            #git_counter += 1
-            #if git_counter % GIT_MOD_COUNTER == 0:
-            #    os.system(GIT_COMMAND)
-            #    git_counter = 0
-
             PARAMS = {
                 'num_cores': NUM_CORES,
                 'batch_size': BATCH_SIZE
@@ -83,11 +76,9 @@ if __name__ == '__main__':
             run_time = int(end_time - start_time)
             print("Completed in {} seconds.".format(run_time))
             if run_time < BATCH_INCREASE_TIME: # If run_time < 1 min: increase the batch_size
-                #BATCH_SIZE = 2 * BATCH_SIZE
                 BATCH_SIZE = increase_batch(BATCH_SIZE)
                 print('Increasing batch size to {}'.format(BATCH_SIZE))
-            elif run_time > 600: # If run_time > 10 mins: decrease batch_size
-                #BATCH_SIZE = int(BATCH_SIZE / 2)
+            elif run_time > BATCH_DECREASE_TIME: # If run_time > 10 mins: decrease batch_size
                 BATCH_SIZE = decrease_batch(BATCH_SIZE)
                 print('Decreasing batch size to {}'.format(BATCH_SIZE))
             else:

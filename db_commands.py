@@ -186,6 +186,7 @@ def retrieve_items(num_items, table, user, password, host, port, database):
 def create_all_tables():
     create_table(table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
     create_table(table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+    create_table(table='selected_items', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
     create_table_results(table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
 
 def populate_queue():

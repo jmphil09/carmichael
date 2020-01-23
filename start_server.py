@@ -43,6 +43,7 @@ app = Flask(__name__)
 def get_json_response(batch_size=100):
     records = retrieve_items(batch_size, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     insert_items(records, table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+    insert_items(records, table='selected_items', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     delete_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
 
     algorithm_to_use = 'carm3'
