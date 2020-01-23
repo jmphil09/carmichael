@@ -87,7 +87,7 @@ class CarmCalculator:
                             y = np.float64((m * q - 1) / (p - 1))
                             z = np.float64((m * p - 1) / (q - 1))
                             if np.floor(x) == x and np.floor(y) == y and np.floor(z) == z:
-                                new_result = [(np.uint64(m), np.uint64(p), np.uint64(q))]  # [(p1, p2, p3)]
+                                new_result = [(int(m), int(p), int(q))]  # [(p1, p2, p3)]
                                 result = result + new_result
             return result
 
@@ -100,7 +100,7 @@ class CarmCalculator:
     def calc_3_carms_for_list(self, prime_list, core_num):
         result = []
         for i in range(0, len(prime_list)):
-            if i % 5 == 0:
+            if i % 2 == 0:
                 percent = int((i / (len(prime_list)))*100)
                 complete_bar = '|' + '='*percent + '-'*(100-percent) + '|'
                 print('Core {}: {}% {}'.format(core_num, percent, complete_bar))
