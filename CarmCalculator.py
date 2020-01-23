@@ -120,4 +120,5 @@ class CarmCalculator:
             self.primes_per_core = {k:len(split_primes[k]) for k in range(0, self.num_cores)}
             p = Pool(processes=self.num_cores)
             result = p.starmap(self.calc_3_carms_for_list, [[split_primes[i], i] for i in range(0, self.num_cores)])
+            p.close()
             return sorted(sum(result, []), key=lambda x: x[0])
