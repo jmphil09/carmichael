@@ -199,7 +199,7 @@ def get_results():
     print(items)
 
 def delete_tables():
-    table_names = ['results', 'computing_table', 'numbers_to_compute']
+    table_names = ['results', 'computing_table', 'numbers_to_compute', 'selected_items']
     for table in table_names:
         connection = psycopg2.connect(user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
         cursor = connection.cursor()
