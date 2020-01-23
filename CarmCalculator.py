@@ -75,20 +75,19 @@ class CarmCalculator:
             diff = next_prime - current_prime
             k = diff
 
-            for B in range(2, m):
-                a = int(np.floor((np.power(m, 2) / B)) + 1)
-                b = int(np.floor((1 / B) * (np.power(m, 2) + ((m + B) * (m - 1)) / (m + k - 1))))
-
-                for A in range(a, b + 1):
-                    p = 1 + ((m + B) * (m - 1)) / (A * B - np.power(m, 2))
-                    q = (A * (p-1) + 1) / m
+            for B in np.arange(2, m):
+                a = np.uint64(np.floor((np.power(m, 2) / B)) + 1)
+                b = np.uint64(np.floor((1 / B) * (np.power(m, 2) + ((m + B) * (m - 1)) / (m + k - 1))))
+                for A in np.arange(a, b + 1):
+                    p = np.float64(1 + ((m + B) * (m - 1)) / (A * B - np.power(m, 2)))
+                    q = np.float64((A * (p-1) + 1) / m)
                     if np.floor(p) == p and np.floor(q) == q:  # np.floor(q) == q may not be needed
                         if self.is_prime(p) and self.is_prime(q):
-                            x = (p * q - 1) / (m - 1)
-                            y = (m * q - 1) / (p - 1)
-                            z = (m * p - 1) / (q - 1)
+                            x = np.float64((p * q - 1) / (m - 1))
+                            y = np.float64((m * q - 1) / (p - 1))
+                            z = np.float64((m * p - 1) / (q - 1))
                             if np.floor(x) == x and np.floor(y) == y and np.floor(z) == z:
-                                new_result = [(int(m), int(p), int(q))]  # [(p1, p2, p3)]
+                                new_result = [(np.uint64(m), np.uint64(p), np.uint64(q))]  # [(p1, p2, p3)]
                                 result = result + new_result
             return result
 
