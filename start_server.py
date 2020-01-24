@@ -4,9 +4,6 @@ from flask import Flask, request
 from db_commands import insert_items, delete_items, retrieve_items, insert_results
 
 
-#GLOBAL_NUMS_TO_COMPUTE = list(range(3, 1000)) #TODO: replace with DB
-#GLOBAL_RESULTS = [] #TODO: replace with DB
-
 #TODO: Put these values in a config file
 USER = 'postgres'
 PASSWORD = 'postgres'
@@ -18,26 +15,6 @@ DATABASE_RESULTS = 'results'
 #TODO: Add docstrings
 
 app = Flask(__name__)
-
-
-'''def get_json_response(batch_size):
-    global GLOBAL_NUMS_TO_COMPUTE
-    #TODO: Get 'batch_size' items from the worker queue DB
-    # Add these values in memory to current_workload_list
-    # if the values are in current_workload_list for > 60 mins, remove them
-    #Idea: get batch_size items from DB that are NOT in current_workload_list
-    algorithm_to_use = 'carm3'  # Also determined from worker queue DB
-    numbers_to_compute = GLOBAL_NUMS_TO_COMPUTE[:batch_size]  # Create a list based on batch size
-    GLOBAL_NUMS_TO_COMPUTE = GLOBAL_NUMS_TO_COMPUTE[batch_size:]
-    finished = (GLOBAL_NUMS_TO_COMPUTE == [])  # True if DB is empty, False if otherwise
-
-    json_response = {
-        'algorithm_to_use': algorithm_to_use,
-        'numbers_to_compute': numbers_to_compute,
-        'finished': finished
-    }
-
-    return json_response'''
 
 
 def get_json_response(batch_size=100):
@@ -69,20 +46,17 @@ def get_workload():
 
 @app.route('/send_results', methods=['POST'])
 def send_results():
-    # TODO: store the results in the results DB
-
-    # TODO: remove the computed numbers from the worker queue DB
-    # remove the computed numbers from current_workload_list
-
+    req_json = request.json['result']
     print('====Got Results====')
-    print(request.json['result'])
+    print(req_json)
     print('==== ====')
-
     # Insert results in DB
     result_date = str(datetime.now())
     result_host = request.headers['Host']
-    db_results = [(r[0], r[1], r[2], result_host, result_date) for r in request.json['result']]
+    db_results = [(r[0], r[1], r[2], r[3], result_host, result_date) for r in req_json]
+    items_to_delete = [(r[0], r[3]) for r in req_json]
     insert_results(db_results, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+    delete_items(items_to_delete, table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     return 'False'
 
 if __name__ == '__main__':

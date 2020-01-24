@@ -62,6 +62,7 @@ def create_table_results(table, user, password, host, port, database):
                 p1 BIGINT NOT NULL,
                 p2 BIGINT NOT NULL,
                 p3 BIGINT NOT NULL,
+                alg TEXT NOT NULL,
                 ipaddr TEXT NOT NULL,
                 ts TEXT NOT NULL
                 ); '''.format(table)
@@ -112,7 +113,7 @@ def insert_results(records, table, user, password, host, port, database):
         connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
         cursor = connection.cursor()
 
-        insert_query = '''INSERT INTO {} (p1, p2, p3, ipaddr, ts) VALUES (%s,%s,%s,%s,%s);'''.format(table)
+        insert_query = '''INSERT INTO {} (p1, p2, p3, alg, ipaddr, ts) VALUES (%s,%s,%s,%s,%s,%s);'''.format(table)
 
         cursor.executemany(insert_query, records)
         connection.commit()
