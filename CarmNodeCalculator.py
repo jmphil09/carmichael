@@ -136,7 +136,7 @@ class CarmNodeCalculator:
                 if run_time < self.batch_increase_time:
                     self.batch_size += 1
                     print('Increasing batch size to {}'.format(self.batch_size))
-                elif run_time > self.batch_decrease_time:
+                elif run_time > self.batch_decrease_time and self.batch_size > 1:
                     self.batch_size -= 1
                     print('Decreasing batch size to {}'.format(self.batch_size))
                 else:
