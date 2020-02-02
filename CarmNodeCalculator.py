@@ -122,6 +122,7 @@ class CarmNodeCalculator:
                     next_num = self.next_prime(num)
                     result = result + self.calc_3_carms_for_p(num, next_num, algorithm_to_use)
 
+                result = (result, [(n, algorithm_to_use) for n in numbers_to_compute])
                 #POST the result to the server
                 json_result = {
                     'result': result
@@ -141,6 +142,8 @@ class CarmNodeCalculator:
                     print('Decreasing batch size to {}'.format(self.batch_size))
                 else:
                     print('Keeping batch size at {}'.format(self.batch_size))
+                if finished:
+                    time.sleep(self.wait_time)
             except Exception as ex:
                 print(ex)
                 time.sleep(self.wait_time)

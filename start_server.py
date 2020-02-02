@@ -53,8 +53,12 @@ def send_results():
     # Insert results in DB
     result_date = str(datetime.now())
     result_host = request.headers['Host']
-    db_results = [(r[0], r[1], r[2], r[3], result_host, result_date) for r in req_json]
-    items_to_delete = [(r[0], r[3]) for r in req_json]
+    carm_results = req_json[0]
+    non_carm_results = req_json[1]
+    db_results = [(r[0], r[1], r[2], r[3], result_host, result_date) for r in carm_results]
+    items_to_delete = [(r[0], r[3]) for r in carm_results]
+    add_items_to_delete = [(r[0], r[1]) for r in non_carm_results]
+    items_to_delete = items_to_delete + add_items_to_delete
     insert_results(db_results, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     delete_items(items_to_delete, table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     return 'False'
