@@ -1,0 +1,6 @@
+USER = 'postgres'
+PASSWORD = 'postgres'
+HOST = 'localhost'
+PORT = '5432'
+DATABASE = 'numbers_to_compute'
+DATABASE_RESULTS = 'results'

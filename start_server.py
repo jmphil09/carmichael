@@ -1,16 +1,16 @@
 from datetime import datetime
 from flask import Flask, request
 
+import db_config
 from db_commands import insert_items, delete_items, retrieve_items, insert_results
 
 
-#TODO: Put these values in a config file
-USER = 'postgres'
-PASSWORD = 'postgres'
-HOST = 'localhost'
-PORT = '5432'
-DATABASE = 'numbers_to_compute'
-DATABASE_RESULTS = 'results'
+USER = db_config.USER
+PASSWORD = db_config.PASSWORD
+HOST = db_config.HOST
+PORT = db_config.PORT
+DATABASE = db_config.DATABASE
+DATABASE_RESULTS = db_config.DATABASE_RESULTS
 
 #TODO: Add docstrings
 

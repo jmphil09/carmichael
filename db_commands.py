@@ -1,6 +1,7 @@
 import psycopg2
 from psycopg2 import Error
 
+import db_config
 from util import primesfrom2to
 
 
@@ -15,11 +16,10 @@ register_adapter(numpy.float64, addapt_numpy_float64)
 register_adapter(numpy.int64, addapt_numpy_int64)
 
 
-#TODO: Put these values in a config file
-USER = 'postgres'
-PASSWORD = 'postgres'
-HOST = 'localhost'
-PORT = '5432'
+USER = db_config.USER
+PASSWORD = db_config.PASSWORD
+HOST = db_config.HOST
+PORT = db_config.PORT
 
 #TODO: Add docstrings
 
