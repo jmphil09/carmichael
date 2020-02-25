@@ -20,6 +20,8 @@ USER = db_config.USER
 PASSWORD = db_config.PASSWORD
 HOST = db_config.HOST
 PORT = db_config.PORT
+DATABASE = db_config.DATABASE
+DATABASE_RESULTS = db_config.DATABASE_RESULTS
 
 #TODO: Add docstrings
 
@@ -185,24 +187,24 @@ def retrieve_items(num_items, table, user, password, host, port, database):
 
 
 def create_all_tables():
-    create_table(table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
-    create_table(table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
-    create_table(table='selected_items', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
-    create_table_results(table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+    create_table(table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+    create_table(table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+    create_table(table='selected_items', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+    create_table_results(table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
 
 def populate_queue():
-    records = [(n, 'carm3') for n in primesfrom2to(1000000)[1:]]
+    records = [(n, 'carm3') for n in primesfrom2to(100000)[1:]]
     #records = [(n, m) for n in primesfrom2to(1000)[1:] for m in ['carm3', 'carm4']]
-    insert_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+    insert_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
 
 def get_results():
-    items = retrieve_items(10000, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+    items = retrieve_items(10000, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     print(items)
 
 def delete_tables():
     table_names = ['results', 'computing_table', 'numbers_to_compute', 'selected_items']
     for table in table_names:
-        connection = psycopg2.connect(user=USER, password=PASSWORD, host=HOST, port=PORT, database='numbers_to_compute')
+        connection = psycopg2.connect(user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
         cursor = connection.cursor()
         delete_query = '''DROP TABLE if exists {}'''.format(table)
         cursor.execute(delete_query)
