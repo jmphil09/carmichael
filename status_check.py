@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import db_config
 
 from db_commands import retrieve_items
@@ -17,3 +19,11 @@ remaining = retrieve_items(100000, table='numbers_to_compute', user=USER, passwo
 num_remaining = len(remaining)
 
 print("Number completed: {}, number remaining: {}, percentage complete: {}".format(num_completed, num_remaining, 100*(num_completed / (num_completed + num_remaining))))
+
+
+all_items = retrieve_items(100000, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+times = [datetime.fromisoformat(item[5]) for item in all_items]
+beginning = min(times)
+end = max(times)
+
+print('Runtime: {}'.format(end - beginning))
