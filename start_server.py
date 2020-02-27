@@ -52,7 +52,7 @@ def send_results():
     print('==== ====')
     # Insert results in DB
     result_date = str(datetime.now())
-    result_host = request.headers['Host']
+    result_host = request.remote_addr
     carm_results = req_json[0]
     non_carm_results = req_json[1]
     db_results = [(r[0], r[1], r[2], r[3], result_host, result_date) for r in carm_results]

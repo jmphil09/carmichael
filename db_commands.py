@@ -193,7 +193,7 @@ def create_all_tables():
     create_table_results(table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
 
 def populate_queue():
-    records = [(n, 'carm3') for n in primesfrom2to(100000)[1:]]
+    records = [(n, 'carm3') for n in primesfrom2to(10000)[1:]]
     #records = [(n, m) for n in primesfrom2to(1000)[1:] for m in ['carm3', 'carm4']]
     insert_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
 
