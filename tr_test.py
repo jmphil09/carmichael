@@ -13,7 +13,7 @@ def time_test(core_list):
     result = []
     for num_cores in core_list:
         start_time = time.time()
-        calculator = CarmCalculator(lower_bound = 3, upper_bound=10000, batch=None, num_cores=num_cores, data_folder='tr_data')
+        calculator = CarmCalculator(lower_bound=3, upper_bound=10000, batch=None, num_cores=num_cores, data_folder='tr_data')
         calculator.calc_3_carms()
         end_time = time.time()
         result.append('Runtime for {} cores: {} seconds'.format(num_cores, int(end_time-start_time)))

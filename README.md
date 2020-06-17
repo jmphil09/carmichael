@@ -10,6 +10,14 @@ The original results were created with Matlab and Mathematica, when I was new to
 
 There are 2 main ways to run this code.
 
-1) Use the CarmCalculator class, and run the code locally on one machine. This is mostly for testing algorithm improvements and getting a benchmark score for a single system. See `CarmCalculator_Instructions.md` and `carm_calculator_examples.py` for examples on how to use this class.
+1) Use the CarmCalculator class, and run the code locally on one machine. This is mostly for demos, testing algorithm improvements, and benchmarks.
 
 2) Use the CarmNodeCalculator class, and run the code on any number of machines as nodes which send data to a server node. See `CarmNodeCalculator_Setup_Guide.md` for instructions on how to set this up.
+
+##How to use the CarmCalculator class
+
+See `CarmCalculator_Instructions.md` and `carm_calculator_examples.py` for examples on how to use this class.
+
+###TODO List
+ - Add algorithms to compute 4-carmichael numbers
+ - Use CUDA to compute carmichael numbers with one or more GPU's

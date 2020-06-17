@@ -14,7 +14,14 @@ INITIAL_PRIME_LIMIT = 10000
 
 
 class CarmCalculator:
-    def __init__(self, lower_bound = 3, upper_bound=350, batch=None, num_cores=1, data_folder='data'):
+    def __init__(
+        self,
+        lower_bound=3,
+        upper_bound=350,
+        batch=None,
+        num_cores=1,
+        data_folder='data'
+    ):
         self.upper_bound = upper_bound
         self.num_cores = num_cores
         self.data_folder = data_folder
@@ -54,18 +61,14 @@ class CarmCalculator:
         # Base case
         if (n <= 1):
             return 2
-
         prime = n
         found = False
-
         # Loop continuously until isPrime returns
         # True for a number greater than n
         while(not found):
             prime = prime + 1
-
-            if(self.is_prime(prime) == True):
+            if(self.is_prime(prime)):
                 found = True
-
         return prime
 
     def calc_3_carms_for_p(self, current_prime, next_prime, core_num):
