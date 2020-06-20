@@ -1,4 +1,4 @@
-#Welcome to my Carmichael number repo!
+# Welcome to my Carmichael number repo!
 
 This repo is designed to reproduce and extend the research done here: "insert link to paper here".
 
@@ -6,7 +6,7 @@ This research was originally done between 2009-2011, and relies heavily on compu
 
 The original results were created with Matlab and Mathematica, when I was new to writing code. The code in this repo is written in Python and I am much better at writing code now!
 
-##How to run the code in this repo
+## How to run the code in this repo
 
 This repository should work on most operating systems. It has been tested with linux (Ubuntu and Centos 7), MacOS, Windows, and on Raspberry Pi 4 running CentOS 7. You will need python 3.6 or later.
 
@@ -24,7 +24,7 @@ There are 2 main ways to run this code.
 
 2) Use the CarmNodeCalculator class, and run the code on any number of machines as nodes which send data to a main server node. See below for more info.
 
-##How to set up and run a compute cluster of 1 or more nodes
+## How to set up and run a compute cluster of 1 or more nodes
 For this example we will:
 
 1) Set up the main server node. This node uses a PostGres database to keep track of the data to compute and lets the compute nodes do the actual computing.
@@ -33,7 +33,7 @@ For this example we will:
 
 3) Set up a Raspberry Pi compute node on a Raspberry Pi 4. This will work on a 2, 4, or 8 GB model of a pi 4. You can _probably_ get this to run with a 1GB model or a pi 3 as well (Or even another Arm device).
 
-###TODO List
+### TODO List
  - Add algorithms to compute 4-carmichael numbers
  - Use CUDA to compute carmichael numbers with one or more GPU's
  - Extend the original research by another order of magnitude
