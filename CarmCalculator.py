@@ -1,16 +1,10 @@
-import glob
-import pickle
 import random
 import time
-import numpy as np
 
 from multiprocessing import Pool
-from pathlib import Path
+import numpy as np
 
 from util import primesfrom2to
-
-
-INITIAL_PRIME_LIMIT = 10000
 
 
 class CarmCalculator:
@@ -18,19 +12,13 @@ class CarmCalculator:
         self,
         lower_bound=3,
         upper_bound=350,
-        batch=None,
-        num_cores=1,
-        data_folder='data'
+        num_cores=1
     ):
         self.upper_bound = upper_bound
         self.num_cores = num_cores
-        self.data_folder = data_folder
-        if batch:
-            self.primes = [p for p in primesfrom2to(self.upper_bound) if p in batch]
-        else:
-            self.primes = [p for p in primesfrom2to(self.upper_bound) if p >= lower_bound]
+        self.primes = [p for p in primesfrom2to(self.upper_bound) if p >= lower_bound]
         self.p1_primes_to_check = self.primes
-        self.primes_per_core = {k:0 for k in range(0, self.num_cores)}
+        self.primes_per_core = {k: 0 for k in range(0, self.num_cores)}
         self.prime_dict = {}
 
     def _is_prime(self, n):
