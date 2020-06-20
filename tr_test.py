@@ -20,7 +20,7 @@ def time_test(core_list):
     return result
 
 
-cores_to_test = [1, 2, 4, 8, 16, 24, 32, 48, 64, 96, 128]
+cores_to_test = [16, 24, 32, 48, 64, 96, 128]
 result = time_test(cores_to_test)
 print(result)
 '''
@@ -48,4 +48,14 @@ print(result)
  'Runtime for 64 cores: 20 seconds',
  'Runtime for 96 cores: 19 seconds',
  'Runtime for 128 cores: 18 seconds']
+
+['Runtime for 16 cores: 46 seconds'
+ 'Runtime for 24 cores: 32 seconds'
+ 'Runtime for 32 cores: 24 seconds'
+ 'Runtime for 48 cores: 22 seconds'
+ 'Runtime for 64 cores: 20 seconds'
+ 'Runtime for 96 cores: 20 seconds'
+  'Runtime for 128 cores: 19 seconds']
+
+
 '''
