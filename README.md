@@ -1,10 +1,12 @@
 # Welcome to my Carmichael number repo!
 
-This repo is designed to reproduce and extend the research done here: "insert link to paper here".
+Note: this document is in the process of being updated.
 
-This research was originally done between 2009-2011, and relies heavily on computation power. One of the reasons I have created this repo is to reproduce my original results on much newer hardware in a fraction of the original time. For example, it took a few months of computation time to generate the original results and I can reproduce those results in a couple of days using a Threadripper CPU or a small raspberry pi compute cluster (see below for specifics).
+This repo is designed to reproduce and extend the research done here: "insert link to paper here". Note: I am looking for a digital version of the paper to include. I have a hard copy, so I will scan it and create a digital copy if I can't find one soon.
 
-The original results were created with Matlab and Mathematica, when I was new to writing code. The code in this repo is written in Python and I am much better at writing code now!
+This research was originally done between 2009-2011, and relies heavily on cpu computation power. One of the reasons I have created this repo is to reproduce my original results on much newer hardware in a fraction of the original time. For example, it took a few months of computation time to generate the original results and I can reproduce those results in a couple of days using a Threadripper CPU or a small raspberry pi compute cluster (see below for specifics).
+
+The original results were created with Matlab and Mathematica, when I was new to writing code. The code in this repo is written in Python and, more importantly, I am much better at writing code now!
 
 ## How to run the code in this repo
 
@@ -14,7 +16,7 @@ To get started:
 
 1) Clone this repo.
 
-2) Create a virtual environment. Example: `python -m venv carm_env` and activate the environment with `source carm_env/bin/activate`. These commands will work on Linux and Mac but are slightly different for Windows.
+2) Create a virtual environment with venv. Example: `python -m venv carm_env` and activate the environment with `source carm_env/bin/activate`. These commands will work on Linux and Mac but are slightly different for Windows.
 
 3) Install the requirements with `python -m pip install -r requirements.txt`. (Use pi4_requirements.txt if using a raspberry pi or other Arm device).
 
@@ -31,9 +33,16 @@ For this example we will:
 
 2) Set up a "PC" compute node. (Linux, MacOS, or Windows).
 
-3) Set up a Raspberry Pi compute node on a Raspberry Pi 4. This will work on a 2, 4, or 8 GB model of a pi 4. You can _probably_ get this to run with a 1GB model or a pi 3 as well (Or even another Arm device).
+3) Set up a Raspberry Pi compute node on a Raspberry Pi 4. This will work on a 2, 4, or 8 GB model of a pi 4. You can _probably_ get this to run with a 1GB model or a pi 3 as well (Or another Arm device).
+
+### Step 1) Set up the main server node
+
+ - Follow the steps above to set up a virtual environment and install packages from requirements.txt
+ - Set up a Postgres Database (TODO: add steps for this)
+ - Run `start_server.py`
 
 ### TODO List
+ - Add more values to `db_config.py` and update Step 1) instructions above
  - Add algorithms to compute 4-carmichael numbers
  - Use CUDA to compute carmichael numbers with one or more GPU's
  - Extend the original research by another order of magnitude
