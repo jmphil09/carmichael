@@ -13,7 +13,7 @@ def time_test(core_list):
     result = []
     for num_cores in core_list:
         start_time = time.time()
-        calculator = CarmCalculator(lower_bound=3, upper_bound=10000, batch=None, num_cores=num_cores, data_folder='tr_data')
+        calculator = CarmCalculator(lower_bound=3, upper_bound=10000, num_cores=num_cores)
         calculator.calc_3_carms()
         end_time = time.time()
         result.append('Runtime for {} cores: {} seconds'.format(num_cores, int(end_time-start_time)))
@@ -57,5 +57,13 @@ print(result)
  'Runtime for 96 cores: 20 seconds'
   'Runtime for 128 cores: 19 seconds']
 
+PBO enabled
+['Runtime for 16 cores: 46 seconds'
+ 'Runtime for 24 cores: 30 seconds'
+ 'Runtime for 32 cores: 25 seconds'
+ 'Runtime for 48 cores: 22 seconds'
+ 'Runtime for 64 cores: 18 seconds'
+ 'Runtime for 96 cores: 18 seconds'
+ 'Runtime for 128 cores: 16 seconds']
 
 '''

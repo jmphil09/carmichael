@@ -38,8 +38,19 @@ For this example we will:
 ### Step 1) Set up the main server node
 
  - Follow the steps above to set up a virtual environment and install packages from requirements.txt
- - Set up a Postgres Database (TODO: add steps for this)
+ - Set up a Postgres Database (The following steps were created using Ubuntu 18.04)
+  - `sudo apt-get install wget ca-certificates`
+  - `wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -`
+  - ``sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'``
+  - `sudo apt-get update`
+  - `sudo apt-get install postgresql postgresql-contrib`
+  - `sudo systemctl start postgresql@12-main`
+  - Update the postgres password to "postgres" by entering `sudo passwd postgres` and typing `postgres` twice. (Feel free to use a more secure password and even a different user for the database commands, just remember to update these values in `db_config.py`).
+  - `su - postgres`
+  - `psql -d template1 -c "ALTER USER postgres WITH PASSWORD 'postgres';"`
+  - Press ctrl+d to logout of the postgres user
  - Run `start_server.py`
+ - Run `setup_db.py` to automatically set up the Postgres tables. **Important:** If you want to change the prime upper limit, you need to change the `upper_limit` value in `setup_db.py`. The default value for `upper_limit` is 10^6, which was the limit used in the original research paper.
 
 ### TODO List
  - Add more values to `db_config.py` and update Step 1) instructions above

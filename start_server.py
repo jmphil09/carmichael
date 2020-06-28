@@ -38,11 +38,12 @@ def get_json_response(batch_size=100):
 @app.route('/get_workload', methods=['GET'])
 def get_workload():
     batch_size = int(request.args.get('batch_size'))
-    if batch_size==None:
+    if batch_size is None:
         batch_size = 100
     json_response = get_json_response(batch_size)
     print(batch_size)
     return json_response
+
 
 @app.route('/send_results', methods=['POST'])
 def send_results():
@@ -62,6 +63,7 @@ def send_results():
     insert_results(db_results, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     delete_items(items_to_delete, table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     return 'False'
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9000, debug=True)

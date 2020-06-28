@@ -84,7 +84,6 @@ def create_table_results(table, user, password, host, port, database):
             print('Connection closed')
 
 
-
 def insert_items(records, table, user, password, host, port, database):
     try:
         connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
@@ -109,7 +108,6 @@ def insert_items(records, table, user, password, host, port, database):
             print('Connection closed')
 
 
-
 def insert_results(records, table, user, password, host, port, database):
     try:
         connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
@@ -132,7 +130,6 @@ def insert_results(records, table, user, password, host, port, database):
             cursor.close()
             connection.close()
             print('Connection closed')
-
 
 
 def delete_items(records, table, user, password, host, port, database):
@@ -187,21 +184,27 @@ def retrieve_items(num_items, table, user, password, host, port, database):
 
 
 def create_all_tables():
+    """Create all the necessary tables in the database."""
     create_table(table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     create_table(table='computing_table', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     create_table(table='selected_items', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     create_table_results(table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
 
-def populate_queue():
-    records = [(n, 'carm3') for n in primesfrom2to(10000)[1:]]
-    #records = [(n, m) for n in primesfrom2to(1000)[1:] for m in ['carm3', 'carm4']]
+
+def populate_queue(upper_limit=1000000):
+    """Create a list of prime numbers up to "upper_limit" to use in the carmichael number algorithms."""
+    records = [(n, 'carm3') for n in primesfrom2to(upper_limit)[1:]]
     insert_items(records, table='numbers_to_compute', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
 
-def get_results():
-    items = retrieve_items(10000, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
+
+def get_results(num_results=10000):
+    """Print and return "num_results" carmichael numbers."""
+    items = retrieve_items(num_results, table='results', user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
     print(items)
 
+
 def delete_tables():
+    """Delete tables from the database."""
     table_names = ['results', 'computing_table', 'numbers_to_compute', 'selected_items']
     for table in table_names:
         connection = psycopg2.connect(user=USER, password=PASSWORD, host=HOST, port=PORT, database=DATABASE)
@@ -211,3 +214,29 @@ def delete_tables():
         connection.commit()
         cursor.close()
         connection.close()
+
+
+def create_database():
+    """Create the database to store numbers to compute, and results."""
+    try:
+        connection = psycopg2.connect(user=USER, password=PASSWORD, host=HOST, port=PORT)
+        connection.autocommit = True
+        cursor = connection.cursor()
+        cursor.execute('create database "{}";'.format(DATABASE))
+        print('Successfully created database: {}'.format(DATABASE))
+    except Exception as ex:
+        print('An exception occurred in create_database')
+        print(ex)
+
+
+def drop_database():
+    """Drop the database, so a clean version can be created."""
+    try:
+        connection = psycopg2.connect(user=USER, password=PASSWORD, host=HOST, port=PORT)
+        connection.autocommit = True
+        cursor = connection.cursor()
+        cursor.execute('drop database if exists {};'.format(DATABASE))
+        print('Successfully dropped database: {}'.format(DATABASE))
+    except Exception as ex:
+        print('An exception occurred in drop_database')
+        print(ex)
