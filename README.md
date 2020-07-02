@@ -2,7 +2,8 @@
 
 Note: this document is in the process of being updated.
 
-This repo is designed to reproduce and extend the research done here: "insert link to paper here". Note: I am looking for a digital version of the paper to include. I have a hard copy, so I will scan it and create a digital copy if I can't find one soon.
+This repo is designed to reproduce and extend the research done in my Master's Thesis: 
+[Phillips_thesis_final.pdf](Phillips_thesis_final.pdf)
 
 This research was originally done between 2009-2011, and relies heavily on cpu computation power. One of the reasons I have created this repo is to reproduce my original results on much newer hardware in a fraction of the original time. For example, it took a few months of computation time to generate the original results and I can reproduce those results in a couple of days using a Threadripper CPU or a small raspberry pi compute cluster (see below for specifics).
 
