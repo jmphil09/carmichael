@@ -1,5 +1,6 @@
-WORKLOAD_URL = 'http://192.168.50.126:9000/get_workload'
-RESULT_URL = 'http://192.168.50.126:9000/send_results'
+SERVER_URL = 'http://192.168.50.126:9000'
+WORKLOAD_URL = SERVER_URL + '/get_workload'
+RESULT_URL = SERVER_URL + '/send_results'
 NUM_CORES = 4
 BATCH_SIZE = 1
 WAIT_TIME = 300

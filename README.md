@@ -1,8 +1,6 @@
 # Welcome to my Carmichael number repo!
 
-Note: this document is in the process of being updated.
-
-This repo is designed to reproduce and extend the research done in my Master's Thesis: 
+This repo is designed to reproduce and extend the research done in my Master's Thesis:
 [Phillips_thesis_final.pdf](Phillips_thesis_final.pdf)
 
 This research was originally done between 2009-2011, and relies heavily on cpu computation power. One of the reasons I have created this repo is to reproduce my original results on much newer hardware in a fraction of the original time. For example, it took a few months of computation time to generate the original results and I can reproduce those results in a couple of days using a Threadripper CPU or a small raspberry pi compute cluster (see below for specifics).
@@ -53,8 +51,24 @@ For this example we will:
  - Run `start_server.py`
  - Run `setup_db.py` to automatically set up the Postgres tables. **Important:** If you want to change the prime upper limit, you need to change the `upper_limit` value in `setup_db.py`. The default value for `upper_limit` is 10^6, which was the limit used in the original research paper.
 
+### Step 2) Set up a PC compute node
+
+This can be done on the same machine you used as the main server node, or any other machine on the same local network as the main node. (With some tweaking, you could set up a static IP address for a machine on a different network, but we will assume all nodes in this tutorial are on the same network).
+
+ - If using a different machine than the server node, clone this repo and install the requirements from `requirements.txt` as above.
+ - In `compute_node_config.py`, change the `SERVER_URL` to the IP address of your server node.
+ - In `compute_node_config.py`, change `NUM_CORES` to the number of CPU cores you wish to use on your worker node.
+ - Optional: Play around with `BATCH_SIZE`, or the other values in `compute_node_config.py`. Refer to the comments in that file to see what the different values do. By default, these values will auto-adjust depending on how fast or slow the worker node is sending results back to the compute node.
+ - Run the node with `python start_compute_node.py`.
+
+### Step 3) Set up a Raspberry pi compute node
+
+ - Follow the instructions in [Raspberry_Pi_4_Setup_Guide.txt](Raspberry_Pi_4_Setup_Guide.txt)
+ - Update `compute_node_config.py` as in Step 2) above.
+ - After following these steps, whenever the Raspberry pi boots it will pull the latest code from this repo (you can specify your own fork during the setup guide) and will run `start_compute_node.py`.
+ - If you want to setup multiple Raspberry Pi's, you can follow the steps above for each pi (or you can create copies of the pi's sd card to save some time).
+
 ### TODO List
- - Add more values to `db_config.py` and update Step 1) instructions above
- - Add algorithms to compute 4-carmichael numbers
- - Use CUDA to compute carmichael numbers with one or more GPU's
+ - Add algorithms to compute 4-carmichael numbers and Chernick universal forms
  - Extend the original research by another order of magnitude
+ - Use CUDA to compute carmichael numbers with one or more GPU's

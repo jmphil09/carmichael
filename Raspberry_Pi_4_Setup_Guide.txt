@@ -1,4 +1,4 @@
-Raspberry pi 4 Setup Guide
+Raspberry Pi 4 Setup Guide
 
 -Install centos 7 minimal: CentOS-Userland-7-armv7hl-RaspberryPI-Minimal-4-1908-sda.raw
 http://isoredirect.centos.org/altarch/7/isos/armhfp/
