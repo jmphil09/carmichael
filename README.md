@@ -9,7 +9,7 @@ The original results were created with Matlab and Mathematica, when I was new to
 
 ## How to run the code in this repo
 
-This repository should work on most operating systems. It has been tested with linux (Ubuntu and Centos 7), MacOS, Windows, and on Raspberry Pi 4 running CentOS 7. You will need python 3.6 or later.
+This repository should work on most operating systems. It has been tested with linux (Ubuntu and Centos 7), MacOS, Windows, and on Raspberry Pi 4 running CentOS 7. You will need python 3.7 or later.
 
 To get started:
 
@@ -67,6 +67,7 @@ This can be done on the same machine you used as the main server node, or any ot
  - Update `compute_node_config.py` as in Step 2) above.
  - After following these steps, whenever the Raspberry pi boots it will pull the latest code from this repo (you can specify your own fork during the setup guide) and will run `start_compute_node.py`.
  - If you want to setup multiple Raspberry Pi's, you can follow the steps above for each pi (or you can create copies of the pi's sd card to save some time).
+ - Note: right now these instructions will setup python 3.6 on the Raspberry Pi. This will work fine for computing numbers, but if you plan on using a Raspberry Pi for your main server node, or to run some of the database scripts, you will need python 3.7.
 
 ### TODO List
  - Add algorithms to compute 4-carmichael numbers and Chernick universal forms
