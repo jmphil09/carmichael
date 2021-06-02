@@ -20,5 +20,5 @@ pyflakes==2.1.1
 pytools==2019.1.1
 requests==2.22.0
 six==1.13.0
-urllib3==1.25.7
+urllib3==1.26.5
 Werkzeug==0.16.0
